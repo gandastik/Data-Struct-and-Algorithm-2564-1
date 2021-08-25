@@ -13,10 +13,9 @@ def Range(a = 0, b = 0, c = 1):
         n = math.ceil((b - a)/c)
         temp = a
         for i in range(n):
-            if(temp == 1):
-                ret.append('1.0')
-            elif(abs(3.000 - temp) <= 0.00000001):
-                ret.append('3.0')
+            #check for 1.0, 2.0 then append
+            if(abs(int(temp) - temp) <= 0.00000001):
+                ret.append(f'{temp:0.1f}')
             else:ret.append(f'{temp:g}')
             temp+=c
     return ret
