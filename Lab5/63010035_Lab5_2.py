@@ -105,9 +105,14 @@ class DoublyLinkedList:
             temp = self.head
             while(temp):
                 if(temp.val == val):
-                    prevNode = temp.prev
-                    temp.next.prev = prevNode
-                    prevNode.next = temp.next
+                    #if deletes at tails of linkedlist
+                    if(temp.next == None):
+                        prevNode = temp.prev
+                        prevNode.next = None
+                    else:
+                        prevNode = temp.prev
+                        temp.next.prev = prevNode
+                        prevNode.next = temp.next
                     self.size -= 1
                     return index
                 temp = temp.next
