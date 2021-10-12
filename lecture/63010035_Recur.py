@@ -29,9 +29,10 @@ def placeQueen(row):
             else:
                 placeQueen(row + 1)
 
+startFrom = int(input("Please enter the number for starting point : "))
+end = int(input('Please enter the number for ending point : '))
+print("N-Queen Solver Recursive Solution")
 print("%12s%10s%16s" % ("N Size", "numSol", "Seconds"))
-startFrom = 4
-end = 13
 for i in range(startFrom, end+1):
     numQueens = i
     # will hold current testing data

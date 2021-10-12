@@ -15,11 +15,10 @@ def placable(row, col):
             return False
     # if no issues queen can be placed, return true
     return True
-# -----------------------------------------
-# Main Program
 
-print("N-Queen Solver")
-print("Find number of solutions for placing chess queens on a NxN sized board without threatening each other \n \n")
+startFrom = int(input("Please enter the number for starting point : "))
+end = int(input('Please enter the number for ending point : '))
+print("N-Queen Solver Iterative Solution")
 # create stack to store solutions
 sol = []
 # create row,column and count, set to 0
@@ -30,8 +29,6 @@ count = 0
 first = True
 # record time program started
 # loop
-startFrom = 4
-end = 13
 print("%12s%10s%16s" % ("N Size", "numSol", "Seconds"))
 for i in range(startFrom, end+1):
     n = i
