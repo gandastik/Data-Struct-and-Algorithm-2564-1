@@ -17,27 +17,26 @@ class BST:
             self.root = node
         else:
             # self.inOrderRL(self.root, data)
-            s = [self.root]
+            s = []
             curr = self.root
             while(True):
-                if(curr.right is not None):
+                if(curr is not None):
                     s.append(curr)
                     curr = curr.right
-                elif(s):
-                    if(curr.right is None and data in ['+', '-', '*', '/']):
-                        curr.right = node
+                    if(curr is None and s[-1].data in ['+', '-', '*', '/']):
+                        s[-1].right = node
                         break
+                    elif(curr is None and s[-1].data not in ['+', '-', '*', '/']):
+                        pass
+                elif(s):
                     curr = s.pop()
-                    if(data not in ['+', '-', '*', '/']):
+                    if(curr.data in ['+', '-', '*', '/'] and curr.left is None):
                         curr.left = node
                         break
                     curr = curr.left
                 else:
                     break
-                    
-
-
-
+        return self.root
     
     def printTree(self, node, level = 0):
         if node != None:
@@ -87,11 +86,49 @@ class BST:
                 q.append(curr.right)
         return ret
 
+def printLst(lst):
+    s = ''
+    for _ in lst:
+        s += str(_)
+    return s
+
+def prefixToInfix(prefix):
+    stack = []
+     
+    # read prefix in reverse order
+    i = len(prefix) - 1
+    while i >= 0:
+        if not isOperator(prefix[i]):
+             
+            # symbol is operand
+            stack.append(prefix[i])
+            i -= 1
+        else:
+           
+            # symbol is operator
+            str = "(" + stack.pop() + prefix[i] + stack.pop() + ")"
+            stack.append(str)
+            i -= 1
+     
+    return stack.pop()
+ 
+def isOperator(c):
+    if c == "*" or c == "+" or c == "-" or c == "/" or c == "^" or c == "(" or c == ")":
+        return True
+    else:
+        return False
+
 print("Enter Postfix : ",end='')
 postfix = str(input())
 stack = [str(x) for x in postfix]
-print(stack)
+# print(stack)
 T = BST()
 while(len(stack) != 0):
     ret = T.insert(stack.pop())
+print("Tree : ")
 T.printTree(ret)
+preOrderLst = T.preOrder(ret, [])
+# inOrderLst = T.inOrder(ret, [])
+print('--------------------------------------------------')
+print(f'Infix : {prefixToInfix(printLst(preOrderLst))}')
+print(f'Prefix : {printLst(preOrderLst)}')
