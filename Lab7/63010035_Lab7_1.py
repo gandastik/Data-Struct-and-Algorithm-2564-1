@@ -17,7 +17,7 @@ class BST:
             self.root = node
         else:
             stack = [self.root]
-            #DFS search to find the proper left node for a target node and insert a node as a left node
+            #DFS search to find the proper positions for a target node and insert the node
             while(len(stack) != 0):
                 top = stack.pop()
                 #if the input data is less than the current node data
