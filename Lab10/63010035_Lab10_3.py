@@ -1,38 +1,70 @@
-def printHashTable(length, dic):
-    for i in range(length):
-        print(f"#{i+1}	",end='')
-        if(i in dic.keys()):
-            print(f'({dic[i][0]}, {dic[i][1]})')
-        else:
-            print("None")
-    print("---------------------------")
+class Data:
+    def __init__(self, key, value):
+        self.key = key
+        self.value = value
+
+    def __str__(self):
+        return "({0}, {1})".format(self.key, self.value)
+
+class Hash:
+    def __init__(self, size, maxCollision):
+        self.size = size
+        self.maxCollision = maxCollision
+        self.table = {}
+
+    def insert(self, data):
+        count = 1
+        key = self.getAscii(data) % self.size
+        #check if talbe full
+        if(self.isFull()):
+            print("This table is full !!!!!!")
+            return -1
+
+        #check collision
+        while(True):
+            if(count == self.maxCollision+1):
+                print("Max of collisionChain")
+                self.printHashTable()
+                return 0
+            if(key not in self.table.keys()):
+                self.table.update({key: data})
+                self.printHashTable()
+                return 0
+            else:
+                print(f'collision number {count} at {key}')
+                key = (self.getAscii(data) + (count*count)) % self.size
+            count += 1
+        #insert data
+
+    def getAscii(self, data):
+        ret = 0
+        for i in data.key:
+            ret += ord(i)
+        return ret
+
+    def isFull(self):
+        return len(self.table) == self.size
+    
+    def printHashTable(self):
+        for i in range(self.size):
+            print(f'#{i+1}	',end='')
+            if(i in self.table.keys()):
+                print(f'{self.table[i]}')
+            else:
+                print("None")
+        print("---------------------------")
+
 
 print(" ***** Fun with hashing *****")
 print("Enter Input : ",end='')
 inp = [x for x in input().split('/')]
-length, maxCollision = [int(x) for x in inp[0].split()]
-data = [data.split() for data in inp[1].split(',')]
-dic = {}
-for i in data:
-    _sum = 0
-    count = 1
-    for j in i[0]:
-        _sum += ord(j)
-    key = _sum%length
-    if(len(dic) >= length):
-        print("This table is full !!!!!!")
+size, maxCollision = [int(x) for x in inp[0].split()]
+data = [x.split() for x in inp[1].split(',')]
+hashTable = Hash(size, maxCollision)
+for item in data:
+    d = Data(item[0], item[1])
+    ret = hashTable.insert(d)
+    if(ret == -1):
         break
-    while(True):
-        if(count == maxCollision+1):
-            print("Max of collisionChain")
-            printHashTable(length, dic)
-            break
-        if(key not in dic.keys()):
-            dic.update({key: i})
-            # print(dic)
-            printHashTable(length, dic)
-            break
-        else:
-            print(f"collision number {count} at {key}")
-            key = (_sum + (count*count)) % length
-        count += 1
+    
+# hashTable.printHashTable()
